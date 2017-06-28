@@ -28,9 +28,10 @@ public class Kappa {
 
 
     /**
-     *  Reads a relevance judgement file in the format
-     *  [QryID] 0 [DocID] [Relevance] and extracts the relevance
-     *  values into a list
+     * Reads a relevance judgement file in the format
+     * [QryID] 0 [DocID] [Relevance] and extracts the relevance
+     * values into a list
+     *
      * @param fileName
      */
     private void readFile(String fileName) {
@@ -62,6 +63,7 @@ public class Kappa {
 
     /**
      * Find all equal relevance scores from two lists
+     *
      * @param listOne relevance agreement from annotator one
      * @param listTwo relevance agreement from annotator two
      * @return a list of all the equal relevance from both lists
@@ -90,16 +92,17 @@ public class Kappa {
 
     /**
      * Gets the total number of relevant and non relevant scores from a list
+     *
      * @param relevanceList a list with relevant / non-relevant scores
      * @return an object with the counts of relevant and non relevant scores
      */
     private Relevance countRelevanceRating(List<String> relevanceList) {
         int relevant = 0;
         int nonRelevant = 0;
-        for (String value: relevanceList) {
+        for (String value : relevanceList) {
             //count number of relevant
             value = value.trim();
-            if(value.equals("1")) {
+            if (value.equals("1")) {
                 relevant++;
 
                 //count number of non-relevant
@@ -113,22 +116,24 @@ public class Kappa {
 
     /**
      * Probability that two annotators agree on their relevance and on-relevance scores
+     *
      * @param relevanceAgreement counter of all relevance and non-relevance agreements
      *                           between two annotators
      * @return the probability of agreement
      */
     private double probabilityOfAgreement(Relevance relevanceAgreement) {
-       return (relevanceAgreement.getRelevantCount() + relevanceAgreement.getNonRelevantCount())
-               / (double) relevanceOne.size();
+        return (relevanceAgreement.getRelevantCount() + relevanceAgreement.getNonRelevantCount())
+                / (double) relevanceOne.size();
     }
 
     /**
      * Probability that both annotators would agree in their relevance scores
+     *
      * @param relevanceJudgementOne the relevance count from annotator one
      * @param relevanceJudgementTwo the relevance count from annotator two
      * @return the probability of relevance agreement
      */
-    private double probRelevant(Relevance relevanceJudgementOne,  Relevance relevanceJudgementTwo) {
+    private double probRelevant(Relevance relevanceJudgementOne, Relevance relevanceJudgementTwo) {
         double relOne = relevanceJudgementOne.getRelevantCount() / (double) relevanceOne.size();
         double relTwo = relevanceJudgementTwo.getRelevantCount() / (double) relevanceTwo.size();
 
@@ -137,11 +142,12 @@ public class Kappa {
 
     /**
      * Probability that both annotators would agree in their non-relevance scores
+     *
      * @param relevanceJudgementOne the non-relevance count from annotator one
      * @param relevanceJudgementTwo the non-relevance count from annotator two
      * @return the probability of non-relevance agreement
      */
-    private double probNonRelevant(Relevance relevanceJudgementOne,  Relevance relevanceJudgementTwo) {
+    private double probNonRelevant(Relevance relevanceJudgementOne, Relevance relevanceJudgementTwo) {
         double relOne = relevanceJudgementOne.getNonRelevantCount() / (double) relevanceOne.size();
         double relTwo = relevanceJudgementTwo.getNonRelevantCount() / (double) relevanceTwo.size();
 
@@ -150,8 +156,9 @@ public class Kappa {
 
     /**
      * Probability two annotators agree by chance
+     *
      * @param probNonRelevant the probability of non-relevance agreement
-     * @param probRelevant the probability of relevance agreement
+     * @param probRelevant    the probability of relevance agreement
      * @return the probability of chance agreement
      */
     private double probChanceAgreement(double probNonRelevant, double probRelevant) {
@@ -163,7 +170,8 @@ public class Kappa {
 
     /**
      * The Kappa statistic for two relevance lists
-     * @param probAgreement probability of agreement between annotators
+     *
+     * @param probAgreement       probability of agreement between annotators
      * @param probChanceAgreement probability of chance agreement between annotators
      * @return the kappa result
      */
@@ -174,13 +182,13 @@ public class Kappa {
 
     /**
      * Saves the kappa statistic values to file
+     *
      * @param kappaResult result from calculated kappa and
      *                    fileName the name of the file
-     *
      */
     private void saveToFile(double kappaResult, String fileName) {
         try (FileWriter writer = new FileWriter("Kappa.txt", true)) {
-            writer.write("File: " + String.format("%30s",fileName) + "\t:" + String.format("%10.4f", kappaResult) + "\n");
+            writer.write("File: " + String.format("%30s", fileName) + "\t:" + String.format("%10.4f", kappaResult) + "\n");
 
         } catch (IOException ioe) {
             System.out.println(Arrays.toString(ioe.getStackTrace()));
@@ -233,6 +241,7 @@ public class Kappa {
 
     /**
      * Reads a list of .txt files
+     *
      * @param folderPath a path to a folder containing .txt files
      */
     private void readFileList(String folderPath) {
@@ -244,7 +253,7 @@ public class Kappa {
     public static void main(String[] args) {
 
         Kappa k = new Kappa("./BrandaoDusheyko-qrels.txt",
-                            "/Users/mayara/IdeaProjects/PositionalQueryEvaluator/relevance_docs/");
+                "/Users/mayara/IdeaProjects/PositionalQueryEvaluator/relevance_docs/");
         k.start();
     }
 }

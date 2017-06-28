@@ -18,4 +18,5 @@ public class WeightedPost extends Document {
     public void setWeight(double weight) {
         this.weight = weight;
     }
+
 }

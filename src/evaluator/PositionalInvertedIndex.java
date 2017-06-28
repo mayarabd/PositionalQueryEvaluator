@@ -22,7 +22,6 @@ public class PositionalInvertedIndex {
     protected Map<String, List<Document>> positionalIndex = new TreeMap<>();
 
     //map of <document id, token list>
-    //todo testing here
     private Map<Integer, List<String>> documentTokens = new TreeMap<>();
 
     /**
@@ -142,12 +141,6 @@ public class PositionalInvertedIndex {
             }
         }
 
-        /*List<String> reducedTokenSet = stringList.stream()
-                .filter(token -> !token.equals("the") && !token.equals("is")
-                        && !token.equals("at") && !token.equals("of") && !token.equals("on")
-                        && !token.equals("and") && !token.equals("a"))
-                .collect(Collectors.toList());*/
-
         return reducedTokenSet;
     }
 
@@ -263,10 +256,6 @@ public class PositionalInvertedIndex {
         Map<Integer, String> documentSet = readFile(fileName);
         List<String> tokens;
 
-        //todo testing here
-//        //map of <document id, processed token list> pairs
-//        Map<Integer, List<String>> documentTokens = new TreeMap<>();
-
         for (Map.Entry<Integer, String> entry : documentSet.entrySet()) {
             Integer key = entry.getKey();
             String value = entry.getValue();
@@ -285,6 +274,11 @@ public class PositionalInvertedIndex {
 
         //save to file
         savePositionalIndexToFile();
+    }
+
+    //return a list of terms in the document
+    public List<String> getDocumentTokens(int docId) {
+        return documentTokens.get(docId);
     }
 
     //return number of documents in the collection

@@ -21,4 +21,8 @@ public class QueryCollection {
     public List<String> getRegularQueryList() {
         return regularQueryList;
     }
+
+    public int getTotalTerms() {
+        return proximityQueryList.size() + regularQueryList.size();
+    }
 }
